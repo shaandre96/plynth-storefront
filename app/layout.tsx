@@ -5,6 +5,7 @@ import { DemoBanner } from '@/components/DemoBanner';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { CartDrawer } from '@/components/CartDrawer';
+import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
 
 const playfair = Playfair_Display({
@@ -29,10 +30,56 @@ const jetbrains = JetBrains_Mono({
   weight: ['400', '500'],
 });
 
+const SITE_URL = 'https://plynth.studio';
+const SITE_NAME = 'Plynth';
+const SITE_DESCRIPTION =
+  'Plynth turns a song into a keepsake — personalised NFC vinyl-record magnets that play your song with a tap. A portfolio demonstration store by Koha Studio.';
+
 export const metadata: Metadata = {
-  title: 'Plynth — Personalised music gifts',
-  description:
-    'Plynth turns a song into a keepsake. A portfolio demonstration store by Koha Studio.',
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: 'Plynth — Personalised music gifts',
+    template: '%s · Plynth',
+  },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  keywords: [
+    'personalised vinyl',
+    'NFC vinyl magnet',
+    'music gift',
+    'custom record',
+    'song gift',
+    'vinyl keepsake',
+    'Plynth',
+  ],
+  authors: [{ name: 'Koha Studio' }],
+  creator: 'Koha Studio',
+  publisher: 'Koha Studio',
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_AU',
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: 'Plynth — Personalised music gifts',
+    description: SITE_DESCRIPTION,
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Plynth — Personalised music gifts',
+    description: SITE_DESCRIPTION,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+    },
+  },
 };
 
 export default function RootLayout({
@@ -58,6 +105,7 @@ export default function RootLayout({
             <CartDrawer />
           </div>
         </StoreProvider>
+        <Analytics />
       </body>
     </html>
   );

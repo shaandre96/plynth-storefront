@@ -2,10 +2,19 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowIcon } from '@/components/icons';
 
+const CASE_STUDY_DESCRIPTION =
+  'How Koha Studio designed and built Plynth, a personalised-vinyl storefront demo: search, AI-assisted artwork, a four-step configurator, and a hand-tuned cart.';
+
 export const metadata: Metadata = {
-  title: 'Case study — Plynth · Koha Studio',
-  description:
-    'How Koha Studio designed and built Plynth, a personalised-vinyl storefront demo: search, AI-assisted artwork, a four-step configurator, and a hand-tuned cart.',
+  title: 'Case study',
+  description: CASE_STUDY_DESCRIPTION,
+  alternates: { canonical: '/case-study' },
+  openGraph: {
+    title: 'Case study · Plynth',
+    description: CASE_STUDY_DESCRIPTION,
+    url: '/case-study',
+    type: 'article',
+  },
 };
 
 const FACTS = [

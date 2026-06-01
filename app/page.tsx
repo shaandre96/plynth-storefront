@@ -243,9 +243,38 @@ function Reviews() {
   );
 }
 
+const SITE_URL = 'https://plynth.studio';
+
+const organizationLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Plynth',
+  url: SITE_URL,
+  description:
+    'Personalised NFC vinyl-record magnets that play your song with a tap. A portfolio demonstration store by Koha Studio.',
+  email: 'hello@plynth.studio',
+  founder: { '@type': 'Organization', name: 'Koha Studio' },
+  areaServed: 'AU',
+};
+
+const websiteLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Plynth',
+  url: SITE_URL,
+};
+
 export default function HomePage() {
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteLd) }}
+      />
       <Hero />
       <HowItWorks />
       <ProductsPreview />
