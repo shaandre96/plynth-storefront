@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getProductBySlug, products, formatPrice } from '@/lib/mock-store';
@@ -12,13 +13,55 @@ export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
 }
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<Params>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const product = getProductBySlug(slug);
+  if (!product) return { title: 'Not found' };
+
+  const title = `${product.name} — ${product.subtitle}`;
+  return {
+    title,
+    description: product.description,
+    alternates: { canonical: `/shop/${product.slug}` },
+    openGraph: {
+      title: `${title} · Plynth`,
+      description: product.description,
+      url: `/shop/${product.slug}`,
+      type: 'website',
+    },
+  };
+}
+
 export default async function PdpPage({ params }: { params: Promise<Params> }) {
   const { slug } = await params;
   const product = getProductBySlug(slug);
   if (!product) notFound();
 
+  const productLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: `${product.name} — ${product.subtitle}`,
+    description: product.description,
+    brand: { '@type': 'Brand', name: 'Plynth' },
+    offers: {
+      '@type': 'Offer',
+      price: (product.price / 100).toFixed(2),
+      priceCurrency: 'AUD',
+      availability: 'https://schema.org/InStock',
+      url: `https://plynth.studio/shop/${product.slug}`,
+    },
+  };
+
   return (
     <main className="relative">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd) }}
+      />
       <div className="mx-auto max-w-page px-6 md:px-10 lg:px-14">
         <div className="mt-6 flex items-center gap-2 font-mono text-[11.5px] uppercase tracking-[0.18em] text-muted">
           <Link href="/" className="hover:text-ink">
