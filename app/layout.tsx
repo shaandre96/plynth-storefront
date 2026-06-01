@@ -5,6 +5,7 @@ import { DemoBanner } from '@/components/DemoBanner';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { CartDrawer } from '@/components/CartDrawer';
+import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
 
 const playfair = Playfair_Display({
@@ -104,6 +105,7 @@ export default function RootLayout({
             <CartDrawer />
           </div>
         </StoreProvider>
+        <Analytics />
       </body>
     </html>
   );
